@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/xhtml" lang="en" >
+<head>
+    <meta charset="UTF-8">
+    <title>edition</title>
+    <link rel="stylesheet" type="text/css" th:href="@{css/style.css}" href=".../static/css/style.css"/>
+</head>
+<body>
+<header>Witaj! Ta prosta aplikacja pobiera losowy news z jednego z dostępnych api oraz pozwala na zapisanie go w bazie danych,
+    a następnie usuwanie lub edycję wyświetlanych wpisów.
+</header>
+<article1>
+    <h3>Oto losowy news:</h3>
+        <div class="activity" th:text="${myNews}"></div>
+    <form th:action="@{/save-news}" th:object="${newNews}"  method ="POST">
+        <input type="submit" value="Dodaj do bazy">
+    </form><br>
+    <h3>Oto newsy w naszej bazie danych: </h3><br>
+    <table>
+        <tr>
+            <td>Lp</td>
+            <td>Id</td>
+            <td>Text</td>
+        </tr>
+        <tr th:each="n, iterStat: ${newses}">
+            <td th:text="${iterStat.count}"></td>
+            <td th:text="${n.getId()}"></td>
+            <td th:text="${n.getText()}"></td>
+            <td>
+               <form th:action="@{/remove-news}" method="POST">
+                    <input type="hidden" name="id" th:value="${n.id}">
+                    <input type="submit" value="Usuń">
+               </form>
+            </td>
+            <td>
+                <form th:action="@{/modify-news}" method="POST">
+                    <input type="text" name="text" th:value="${n.text}">
+                    <input type="hidden" name="text" th:value="${newNews.getText()}">
+                    <input type="hidden" name="id" th:value="${n.id}">
+
+                    <input type="submit" value="Zapisz">
+                </form>
+            </td>
+        </tr>
+    </table>
+</article1>
+<!-- <article2>-->
+<!--</article2>-->
+</body>
+</html>

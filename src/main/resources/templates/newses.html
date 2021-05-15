@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/xhtml" lang="en" >
+<head>
+    <meta charset="UTF-8">
+    <title>newses</title>
+    <link rel="stylesheet" type="text/css" th:href="@{css/style.css}" href=".../static/css/style.css"/>
+</head>
+<body>
+<header>Witaj! Ta prosta aplikacja pobiera losowy news z jednego z dostępnych api oraz pozwala na zapisanie go w bazie danych,
+    a następnie usuwanie lub edycję wyświetlanych wpisów.
+</header>
+<article1>
+    <h3>Oto losowy news:</h3>
+        <div class="activity" th:text="${myNews}"></div>
+
+    <form th:action="@{/save-news}" th:object="${newNews}"  method ="POST">
+    <input type="submit" value="Dodaj do bazy">
+    </form><br>
+
+    <h3>Oto newsy w naszej bazie danych: </h3><br>
+    <table>
+        <tr>
+            <td>Lp</td>
+            <td>Id</td>
+            <td>Text</td>
+        </tr>
+        <tr th:each="n, iterStat: ${newses} ">
+            <td th:text="${iterStat.count}"></td>
+            <td th:text="${n.getId()}"></td>
+            <td th:text="${n.getText()}"></td>
+            <td>
+               <form th:action="@{/remove-news}" method="POST">
+                    <input type="hidden" name="id" th:value="${n.id}">
+                    <input type="submit" value="Usuń">
+               </form>
+            </td>
+            <td>
+                <form th:action="@{/edition}" method="GET">
+                    <input type="submit" value="Edytuj">
+                </form>
+            </td>
+        </tr>
+    </table>
+</article1>
+
+<!-- <article2>-->
+<!--    <h3>Dodaj samochód do bazy: </h3><br>-->
+<!--    <form th:action="@{/add-news}" th:object="${newnews}" method="post">-->
+<!--        <p>texta <input type="text" th:field="*{text}"/></p>-->
+<!--        <br>-->
+<!--        <p><input type="submit" value="Dodaj samochód"></p>-->
+<!--    </form><br><br>-->
+<!--    <h3>Usuń samochód z bazy: </h3><br>-->
+<!--    <form th:action="@{/remove-news}" th:object="${newnews}" method="post">-->
+<!--        <p>Id: <input type="text" th:field="*{id}"/></p>-->
+<!--        <p><input type="submit" value="Usuń samochód"></p>-->
+<!--    </form>-->
+
+<!--</article2>-->
+
+<!--<article3>-->
+<!--    <table>-->
+<!--        <td>-->
+<!--            <tr>-->
+<!--                <h3>Wyszukaj samochody z rocznika: </h3><br>-->
+<!--                <form th:action="@{/newses-by-years}" th:object="${newScope}" method="post">-->
+<!--                    <p>Od: <input type="text" th:field="*{minYear}"/>-->
+<!--                        Do: <input type="text" th:field="*{maxYear}"/></p><br>-->
+<!--                    <p><input type="submit" value="Wyszukaj samochody"/></p><br>-->
+<!--                </form>-->
+<!--            </tr>-->
+<!--            <tr>-->
+<!--                <h3>Oto znalezione samochody z lat: </h3>-->
+<!--                <p th:text="${minY +'-' +maxY}"></p>-->
+<!--                <td>Id</td>-->
+<!--                <td>texta</td>-->
+<!--            </tr>-->
+<!--            <tr th:each="news: ${newses2}">-->
+<!--                <td th:text="${news.getId()}"></td>-->
+<!--                <td th:text="${news.gettext()}"></td>-->
+<!--                -->
+<!--            </tr>-->
+<!--        </td>-->
+
+
+        <!--        <td>-->
+        <!--            <p>Modyfikuj samochód o danym id: </p>-->
+        <!--            <form th:action="@{/modify-news}" th:object="${newnews}" method="post">Id:-->
+        <!--                <select th:field="*{id}">-->
+        <!--                    <option th:each="news: ${newses}" th:value="${news.getId()}" th:text="${news.getId()}"></option>-->
+        <!--                </select>-->
+        <!--                <p>text <input type="text" th:field="*{text}"/></p>-->
+        <!--                <p>Model <input type="text" th:field="*{model}"/></p>-->
+        <!--                <p>Color <input type="text" th:field="*{color}"/></p>-->
+        <!--                <p><input type="submit" value="Modyfikuj samochód"/></p>-->
+        <!--            </form>-->
+        <!--            <p>Zmodyfikowano samochód o id:  </p>-->
+        <!--            <p th:text="${modId}"></p>-->
+        <!--        </td>-->
+        <!--        <td>-->
+        <!--            <p>Modyfikuj elementy samochodu o id: </p>-->
+        <!--            <form th:action="@{/modify-news-elem}" th:object="${newnews}" method="post">Id:-->
+        <!--                <select name="id" th:field="*{id}">-->
+        <!--                    <option th:each="news: ${newses}" th:value="${news.getId()}" th:text="${news.getId()}"></option>-->
+        <!--                </select>-->
+        <!--                <p>text <input type="text" th:field="*{text}"/></p>-->
+        <!--                <p>Model <input type="text" th:field="*{model}"/></p>-->
+        <!--                <p>Color <input type="text" th:field="*{color}"/></p>-->
+        <!--                <p><input type="submit" value="Modyfikuj elementy samochodu"/></p>-->
+        <!--            </form>-->
+        <!--            <p>Zmodyfikowano samochód o id:  </p>-->
+        <!--            <p th:text="${modId}"></p>-->
+        <!--        </td>-->
+<!--        &lt;!&ndash;        <td>&ndash;&gt;-->
+<!--                    <p>Usuń news z bazy: </p>-->
+<!--                    <form th:action="@{/remove-news}"  th:object="${newNews}" method="post">-->
+<!--                        <select th:field="*{id}">-->
+<!--                            <option th:each="news: ${newses}" th:value="${news.getId()}" th:text="${news.getId()}"></option>-->
+<!--                        </select>-->
+<!--                        <p><input type="submit" value="Usuń news"/></p>-->
+<!--                    </form>-->
+
+<!--                    <p>Usunięto news o id:  </p>-->
+<!--                    <p th:text="${delId}"></p>-->
+        <!--        </td>-->
+
+<!--    </table>-->
+<!--</article3>-->
+</body>
+</html>
